@@ -7,6 +7,7 @@ import java.util.List;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufProcessor;
+import io.netty.util.ByteProcessor;
 import io.zrz.jpgsql.proto.wire.ErrorResponse;
 import io.zrz.jpgsql.proto.wire.NoticeResponse;
 import io.zrz.jpgsql.proto.wire.RowDescription;
@@ -153,7 +154,7 @@ public class ProtoUtils {
 
       final byte type = payload.readByte();
 
-      final int pos = payload.forEachByte(ByteBufProcessor.FIND_NUL);
+      final int pos = payload.forEachByte(ByteProcessor.FIND_NUL);
 
       if (pos == -1) {
         final byte[] posa = new byte[payload.readableBytes()];

@@ -11,7 +11,7 @@ import io.zrz.visitors.annotations.Visitable;
  * delivered.
  */
 
-@Visitable.Base(visitors = {
+@Visitable.Visitors({
     @Visitable.Visitor(value = BiFunction.class),
     @Visitable.Visitor(value = Function.class),
     @Visitable.Visitor(value = Consumer.class)

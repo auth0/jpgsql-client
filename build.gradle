@@ -1,64 +1,45 @@
-
-buildscript {
-
-  repositories {
-    mavenCentral()
-    //maven { url "https://plugins.gradle.org/m2/" }
-  }
-
-  dependencies {
-    classpath "net.ltgt.gradle:gradle-apt-plugin:0.10"
-    //classpath "com.prezi.pride:gradle-pride-plugin:0.11"
-  }
-
-}
-
-
 plugins {
-  id "com.jfrog.bintray" version "1.7.3"
+  id 'io.franzbecker.gradle-lombok' version '1.14'
+  id 'com.jfrog.artifactory' version '4.8.1'
 }
 
-version = 'master-SNAPSHOT'
+version = '0.2.0'
 group = 'io.zrz'
 
-//apply plugin: 'pride'
 apply plugin: 'java-library'
-apply plugin: 'net.ltgt.apt'
+apply plugin: 'io.franzbecker.gradle-lombok'
 apply plugin: 'maven-publish'
-apply plugin: 'eclipse'
+apply plugin: 'com.jfrog.artifactory'
 
-
-repositories {
-  mavenCentral()
-  jcenter()
-  maven { url "http://dl.bintray.com/zourzouvillys/maven" }
+allprojects {
+    repositories {
+        mavenLocal()
+        maven {
+            url 'https://a0us.jfrog.io/a0us/java-libs'
+            credentials {
+                username = "${artifactory_user}"
+                password = "${artifactory_password}"
+            }
+        }
+    }
 }
-
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
-eclipse {
-
-//  classpath.defaultOutputDir = new File(buildDir, "classes/main")
-
-}
-
 dependencies {
 
-	apt 'org.immutables:immutables:2.5.6'
-	apt 'org.projectlombok:lombok:1.16.20'
-	
-	compile 'org.projectlombok:lombok:1.16.20'
-	compileOnly group: 'org.eclipse.jdt', name: 'org.eclipse.jdt.annotation', version: '2.0.0'
-	compileOnly 'io.zrz:visitors:0.1'
-	apt 'io.zrz:visitors:0.1'
+    annotationProcessor 'org.immutables:immutables:2.5.6'
+    annotationProcessor 'io.zrz:visitors:0.2.0'
+
+	compileOnly 'io.zrz:visitors:0.2.0'
+    compileOnly 'org.eclipse.jdt:org.eclipse.jdt.annotation:2.0.0'
 
     api 'org.reactivestreams:reactive-streams:1.0.0'
     api 'org.slf4j:slf4j-api:1.7.21'
 
-    implementation 'org.postgresql:postgresql:42.2.1.jre7'
-	implementation 'com.google.guava:guava:24.1.1-jre'
+    implementation 'com.google.guava:guava:27.0.1-jre'
+    implementation 'org.postgresql:postgresql:42.2.6'
 	implementation 'io.reactivex.rxjava2:rxjava:2.1.10'
 	implementation 'net.jodah:failsafe:1.0.4'
 
@@ -67,52 +48,46 @@ dependencies {
 
     testCompile 'junit:junit:4.12'
 
-    //
-    	compile 'io.netty:netty-buffer:4.1.22.Final'
+    compile 'io.netty:netty-buffer:4.1.22.Final'
 	compile 'io.netty:netty-codec:4.1.22.Final'
 	compile 'io.netty:netty-handler:4.1.22.Final'
 	compile 'io.netty:netty-transport:4.1.22.Final'
 
-
 }
-
-task wrapper(type: Wrapper) {
-    gradleVersion = '4.6'
-}
-
 
 task sourcesJar(type: Jar) {
     from sourceSets.main.allSource
     classifier = 'sources'
 }
 
+lombok {
+    version = '1.18.4'
+    sha256 = ""
+}
 
 publishing {
   publications {
     maven(MavenPublication) {
-    		from components.java
-      	groupId 'io.zrz.jpgsql'
+    	from components.java
+      	groupId project.group
       	artifactId 'jpgsql-client'
       	version project.version
     }
   }
 }
 
+artifactory {
+    contextUrl = 'https://a0us.jfrog.io/a0us'
+    publish {
+        repository {
+            repoKey = 'java-libs-local'
+            username = "${artifactory_user}"
+            password = "${artifactory_password}"
+        }
 
-bintray {
-
-  user = System.getenv('BINTRAY_USER')
-  key = System.getenv('BINTRAY_KEY')
-
-  publications = ['maven']
-
-  pkg {
-    repo = 'maven'
-    name = 'jpgsql'
-    userOrg = user
-    licenses = ['Apache-2.0']
-    publicDownloadNumbers = false
-    vcsUrl = 'https://github.com/zourzouvillys/jpgsql-client.git'
-  }
-
+        defaults {
+            publications('maven')
+            publishArtifacts = true
+        }
+    }
 }

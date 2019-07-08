@@ -2,8 +2,9 @@
 .factorypath
 .classpath
 .gradle/
+.idea/
 .project
 .settings/
 bin/
 build/
-gradlew.bat
+out/
