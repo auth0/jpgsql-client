@@ -1,1 +1,22 @@
+pluginManagement {
+    resolutionStrategy {
+        eachPlugin {
+            if (requested.id.namespace == 'com.auth0') {
+                useModule("com.auth0:gradle-plugins:${requested.version}")
+            }
+        }
+    }
+    repositories {
+        mavenLocal()
+        maven {
+            url 'https://a0us.jfrog.io/a0us/java-libs'
+            credentials {
+                username = "${artifactory_user}"
+                password = "${artifactory_password}"
+            }
+        }
+        gradlePluginPortal()
+    }
+}
+
 rootProject.name = 'jpgsql-client'
