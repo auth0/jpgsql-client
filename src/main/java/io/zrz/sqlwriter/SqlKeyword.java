@@ -148,6 +148,7 @@ public enum SqlKeyword implements SqlGenerator {
   ENCODING,
   LC_COLLATE,
   LC_CTYPE,
+  COLLATE,
   CONNECTION
 ;
 
