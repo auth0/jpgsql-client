@@ -96,7 +96,7 @@ pipeline {
             docker.image(env.GRADLE_DOCKER_IMAGE).inside("-e GRADLE_USER_HOME=${WORKSPACE}/.gradle -e SONAR_USER_HOME=${WORKSPACE}/.sonar") {
               if (env.BRANCH_NAME.startsWith("PR-")) {
                 withCredentials([[$class: 'StringBinding', credentialsId: 'auth0extensions-token', variable: 'GITHUB_ACCESS_TOKEN']]) {
-                  sh "gradle sonarqube -x check -Partifactory_user=${ARTIFACTORY_USER} -Partifactory_password=${ARTIFACTORY_PASS} -Dsonar.host.url=${env.SONAR_HOST_URL} -Dsonar.login=${env.SONAR_AUTH_TOKEN} -Dsonar.github.pullRequest=${env.CHANGE_ID} -Dsonar.github.oauth=${GITHUB_ACCESS_TOKEN} -Dsonar.github.repository=auth0/${env.JOB_NAME} -Dsonar.analysis.mode=preview"
+                  sh "gradle sonarqube -x check -Partifactory_user=${ARTIFACTORY_USER} -Partifactory_password=${ARTIFACTORY_PASS} -Dsonar.host.url=${env.SONAR_HOST_URL} -Dsonar.login=${env.SONAR_AUTH_TOKEN} -Dsonar.github.pullRequest=${env.CHANGE_ID} -Dsonar.github.oauth=${GITHUB_ACCESS_TOKEN} -Dsonar.github.repository=auth0/${env.JOB_NAME}"
                 }
               } else if (env.BRANCH_NAME == 'master') {
                 sh "gradle sonarqube -x check -Partifactory_user=${ARTIFACTORY_USER} -Partifactory_password=${ARTIFACTORY_PASS} -Dsonar.host.url=${env.SONAR_HOST_URL} -Dsonar.login=${env.SONAR_AUTH_TOKEN}"
