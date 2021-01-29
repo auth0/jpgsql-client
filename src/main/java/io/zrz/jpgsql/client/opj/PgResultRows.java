@@ -122,6 +122,15 @@ final class PgResultRows implements RowBuffer {
   }
 
   @Override
+  public double doubleval(int row, int col) {
+    final byte[] val = this.tuples.get(row).get(col);
+    if (val == null) {
+      return Double.NaN;
+    }
+    return PgResultDecoder.toDouble(this.fields.field(col), val);
+  }
+
+  @Override
   public long longval(final int row, final int col) {
     final byte[] val = this.tuples.get(row).get(col);
     if (val == null) {
@@ -176,8 +185,6 @@ final class PgResultRows implements RowBuffer {
   public byte[] bytea(int row, int i) {
 
     PgResultField field = this.fields.field(i);
-
-    final int oid = field.oid();
 
     byte[] raw = tuples.get(row).get(i);
 

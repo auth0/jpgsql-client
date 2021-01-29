@@ -149,8 +149,28 @@ public enum SqlKeyword implements SqlGenerator {
   LC_COLLATE,
   LC_CTYPE,
   COLLATE,
-  CONNECTION
-;
+  CONNECTION,
+  TRUNCATE,
+  ONLY,
+
+  OLD,
+  NEW,
+
+  BEFORE,
+  AFTER,
+  DEFERRABLE,
+  INITIALLY,
+  IMMEDIATE,
+  EACH,
+  STATEMENT,
+  EXECUTE,
+  PROCEDURE,
+
+  CASE,
+  WHEN,
+  ELSE,
+
+  ;
 
   private static final Set<String> LOOKUP = Arrays.asList(values()).stream().map(x -> x.name()).collect(ImmutableSet.toImmutableSet());
 

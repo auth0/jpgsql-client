@@ -35,6 +35,8 @@ public interface ResultRow {
 
   Optional<byte[]> bytes(final int field);
 
+  double doubleval(final int field);
+
   long longval(final int field);
 
   long longval(int field, long defaultValue);
@@ -54,11 +56,11 @@ public interface ResultRow {
   int[] int2vector(int column);
 
   default boolean isNull(final int index) {
-    return bytes(index) == null;
+    return bytes(index, null) == null;
   }
 
   default boolean isNull(final String name) {
-    return bytes(field(name).column()) == null;
+    return bytes(field(name).column(), null) == null;
   }
 
   /**

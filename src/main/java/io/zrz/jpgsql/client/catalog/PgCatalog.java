@@ -7,6 +7,7 @@ import io.zrz.jpgsql.client.PostgresQueryProcessor;
 import io.zrz.jpgsql.client.PostgresUtils;
 import io.zrz.sqlwriter.DbIdent;
 import io.zrz.sqlwriter.QueryGenerator;
+import io.zrz.sqlwriter.SqlWriter;
 import io.zrz.sqlwriter.SqlWriters;
 
 public class PgCatalog {
@@ -19,6 +20,7 @@ public class PgCatalog {
       .innerJoin(
           DbIdent.of("pg_catalog", "pg_namespace"),
           SqlWriters.eq(DbIdent.of("pg_namespace", "oid"), DbIdent.of("pg_class", "relnamespace")))
+      .select(SqlWriter.ident("relname"), SqlWriter.ident("nspname"))
       .submitTo(pg))
       .flatMap(PostgresUtils.rowMapper()).map(row -> new PgClassRecord(row)).cache();
 
