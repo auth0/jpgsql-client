@@ -133,6 +133,31 @@ public class PgResultDecoder {
 
   }
 
+  public static double toDouble(final PgResultField field, final byte[] bs) {
+
+    final int oid = field.oid();
+
+    if (field.format() == Field.TEXT_FORMAT) {
+      return Double.parseDouble(new String(bs));
+    }
+
+    switch (oid) {
+      case Oid.FLOAT4:
+        return ByteConverter.float4(bs, 0);
+      case Oid.FLOAT8:
+        return ByteConverter.float8(bs, 0);
+      case Oid.INT2:
+        return ByteConverter.int2(bs, 0);
+      case Oid.INT4:
+        return ByteConverter.int4(bs, 0);
+      case Oid.INT8:
+        return ByteConverter.int8(bs, 0);
+    }
+
+    throw new AssertionError(String.format("Can't convert binary field with OID %d to double", oid));
+
+  }
+
   /**
    *
    */

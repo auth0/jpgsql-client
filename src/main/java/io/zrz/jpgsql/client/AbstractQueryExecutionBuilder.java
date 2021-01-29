@@ -121,7 +121,7 @@ public abstract class AbstractQueryExecutionBuilder<T> {
         .sequential()
         .reduce(1, (result, element) -> params.append(result, element.params), (id, x) -> id);
 
-    return new Tuple(query, params);
+    return Tuple.of(query, params);
 
   }
 

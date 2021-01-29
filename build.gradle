@@ -28,7 +28,7 @@ targetCompatibility = 1.8
 
 dependencies {
 
-    annotationProcessor 'org.immutables:immutables:2.5.6'
+    annotationProcessor 'org.immutables:immutables:2.8.8'
     annotationProcessor 'io.zrz:visitors:0.3.0'
 
     compileOnly 'io.zrz:visitors:0.3.0'
@@ -37,13 +37,13 @@ dependencies {
     api 'org.reactivestreams:reactive-streams:1.0.0'
     api 'org.slf4j:slf4j-api:1.7.21'
 
-    implementation 'com.google.guava:guava:27.0.1-jre'
-    implementation 'org.postgresql:postgresql:42.2.14'
-    implementation 'io.reactivex.rxjava2:rxjava:2.1.10'
+    implementation 'com.google.guava:guava:29.0-jre'
+    implementation 'org.postgresql:postgresql:42.2.18'
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.19'
     implementation 'net.jodah:failsafe:1.0.4'
 
     testImplementation 'ch.qos.logback:logback-classic:1.2.3'
-    testImplementation 'org.slf4j:jul-to-slf4j:1.7.25'
+    testImplementation 'org.slf4j:jul-to-slf4j:1.7.30'
 
     testCompile 'junit:junit:4.12'
 
@@ -60,7 +60,7 @@ task sourcesJar(type: Jar) {
 }
 
 lombok {
-    version = '1.18.4'
+    version = '1.18.12'
     sha256 = ""
 }
 
