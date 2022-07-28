@@ -6,7 +6,7 @@
 - Follow existing code style and conventions
 - Separate unrelated changes into multiple pull requests
 - For bigger changes, make sure you start a discussion first by creating an issue and explaining the intended change
-- This repository requires 2 reviews from the IAM User Management Engineering Team
+- This repository requires 2 reviews from the IAM User Services Engineering Team
 
 ## Development dependencies
 
