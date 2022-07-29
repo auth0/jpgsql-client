@@ -1,8 +1,13 @@
+@Library('auth0') _
+@Library('k8sAgents') agentLibrary
+
 def version
 
 pipeline {
   agent {
-    label 'iam-user-management'
+    kubernetes {
+      yaml dockerAgent()
+    }
   }
 
   environment {
@@ -29,19 +34,6 @@ pipeline {
 
           SKIP_BUILD = env.CI_COMMITER_NAME == commiter
         }
-      }
-    }
-
-    stage('SharedLibs') {
-      when {
-        not { expression { return SKIP_BUILD } }
-      }
-
-      steps {
-        library identifier: 'auth0-jenkins-pipelines-library@master', retriever: modernSCM(
-            [$class: 'GitSCMSource',
-             remote: 'git@github.com:auth0/auth0-jenkins-pipelines-library.git',
-             credentialsId: 'auth0extensions-ssh-key'])
       }
     }
 
