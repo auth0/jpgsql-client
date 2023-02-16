@@ -128,6 +128,11 @@ public class PgThreadPooledClient extends AbstractPostgresClient implements Post
 
     this.ds.setBinaryTransfer(true);
 
+    // Explicitly disable binary transfer for certain field types
+    if (config.getBinaryTransferDisable() != null) {
+      this.ds.setBinaryTransferDisable(config.getBinaryTransferDisable());
+    }
+
     // reasonably large default fetch size
 
     if (config.getDefaultRowFetchSize() > 0)

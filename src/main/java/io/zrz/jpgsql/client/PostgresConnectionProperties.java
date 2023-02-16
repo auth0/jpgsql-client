@@ -133,4 +133,7 @@ public class PostgresConnectionProperties {
   @Default
   private boolean debug = false;
 
+  @Default
+  private String binaryTransferDisable = null;
+
 }

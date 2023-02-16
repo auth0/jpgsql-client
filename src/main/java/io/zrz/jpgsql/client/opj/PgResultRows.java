@@ -232,8 +232,7 @@ final class PgResultRows implements RowBuffer {
 
     }
 
-    throw new IllegalArgumentException();
-
+    throw new IllegalArgumentException(String.format("unhandled format for text array field: %s", field.format()));
   }
 
 }
