@@ -210,7 +210,7 @@ final class PgResultRows implements RowBuffer {
         return Splitter.on(' ').splitToList(strval(row, column)).stream().mapToInt(x -> Integer.parseInt(x)).toArray();
     }
 
-    throw new IllegalArgumentException(String.format("unhandled format for int array field: %d", field.format()));
+    throw new IllegalArgumentException(String.format("unhandled format for int array field: %s", field.toString()));
 
   }
 
@@ -232,7 +232,7 @@ final class PgResultRows implements RowBuffer {
 
     }
 
-    throw new IllegalArgumentException(String.format("unhandled format for text array field: %d", field.format()));
+    throw new IllegalArgumentException(String.format("unhandled format for text array field: %s", field.toString()));
   }
 
 }
