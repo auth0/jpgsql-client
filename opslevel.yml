@@ -4,3 +4,8 @@ repository:
   owner: iam_user_services
   tier:
   tags:
+tools:
+  - name: Jenkins
+    category: continuous_integration
+    url: https://jenkins.admin.ci.space.prod.a0core.net/job/jpgsql-client/job/master
+    environment:

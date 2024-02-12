@@ -3,6 +3,14 @@
 
 def version
 
+def sonarqubeEndpoint() {
+  if (isToolsCI()) {
+    return 'https://sonar.forge.auth0.net'
+  } else {
+    return 'http://sonarqube-sonarqube.sonarqube.svc.cluster.local:9000'
+  }
+}
+
 pipeline {
   agent {
     kubernetes {
@@ -12,8 +20,8 @@ pipeline {
 
   environment {
     GRADLE_DOCKER_IMAGE = 'gradle:5.0.0-jdk11'
-    SONAR_HOST_URL      = 'https://sonar.forge.auth0.net'
-    SONAR_AUTH_TOKEN    = credentials('sonarqube-token')
+    SONAR_HOST_URL      = sonarqubeEndpoint()
+    SONAR_AUTH_TOKEN    = credentials('45c21241-d644-4484-bd3b-c2970aae5bb5')
     CI_COMMITER_NAME    = 'User Management CI'
     CI_COMMITER_EMAIL   = 'user.management.ci@auth0.com'
   }
@@ -44,7 +52,7 @@ pipeline {
 
       steps {
         script {
-          withCredentials([usernamePassword(credentialsId: 'Artifactory', usernameVariable: 'ARTIFACTORY_USER', passwordVariable: 'ARTIFACTORY_PASS')]) {
+          withCredentials([usernamePassword(credentialsId: 'artifactory', usernameVariable: 'ARTIFACTORY_USER', passwordVariable: 'ARTIFACTORY_PASS')]) {
             docker.image(env.GRADLE_DOCKER_IMAGE).inside("-e GRADLE_USER_HOME=${WORKSPACE}/.gradle") {
               sh "gradle --console=plain prepareRelease -Partifactory_user=${ARTIFACTORY_USER} -Partifactory_password=${ARTIFACTORY_PASS}"
 
@@ -65,7 +73,7 @@ pipeline {
       }
 
       steps {
-        withCredentials([usernamePassword(credentialsId: 'Artifactory', usernameVariable: 'ARTIFACTORY_USER', passwordVariable: 'ARTIFACTORY_PASS')]) {
+        withCredentials([usernamePassword(credentialsId: 'artifactory', usernameVariable: 'ARTIFACTORY_USER', passwordVariable: 'ARTIFACTORY_PASS')]) {
           script {
             docker.image(env.GRADLE_DOCKER_IMAGE).inside("-e A0ENV=test -e GRADLE_USER_HOME=${WORKSPACE}/.gradle") {
               sh "gradle check -Partifactory_user=${ARTIFACTORY_USER} -Partifactory_password=${ARTIFACTORY_PASS}"
@@ -83,7 +91,7 @@ pipeline {
       }
 
       steps {
-        withCredentials([usernamePassword(credentialsId: 'Artifactory', usernameVariable: 'ARTIFACTORY_USER', passwordVariable: 'ARTIFACTORY_PASS')]) {
+        withCredentials([usernamePassword(credentialsId: 'artifactory', usernameVariable: 'ARTIFACTORY_USER', passwordVariable: 'ARTIFACTORY_PASS')]) {
           script {
             docker.image(env.GRADLE_DOCKER_IMAGE).inside("-e GRADLE_USER_HOME=${WORKSPACE}/.gradle -e SONAR_USER_HOME=${WORKSPACE}/.sonar") {
               if (env.BRANCH_NAME.startsWith("PR-")) {
@@ -118,7 +126,7 @@ pipeline {
           sh "git tag v${version}"
         }
 
-        withCredentials([usernamePassword(credentialsId: 'Artifactory', usernameVariable: 'ARTIFACTORY_USER', passwordVariable: 'ARTIFACTORY_PASS')]) {
+        withCredentials([usernamePassword(credentialsId: 'artifactory', usernameVariable: 'ARTIFACTORY_USER', passwordVariable: 'ARTIFACTORY_PASS')]) {
           script {
             docker.image(env.GRADLE_DOCKER_IMAGE).inside("-e GRADLE_USER_HOME=${WORKSPACE}/.gradle") {
               sh "gradle --console=plain artifactoryPublish incrementMinor -Partifactory_user=${ARTIFACTORY_USER} -Partifactory_password=${ARTIFACTORY_PASS}"
