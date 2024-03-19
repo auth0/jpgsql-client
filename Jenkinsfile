@@ -3,14 +3,6 @@
 
 def version
 
-def sonarqubeEndpoint() {
-  if (isToolsCI()) {
-    return 'https://sonar.forge.auth0.net'
-  } else {
-    return 'http://sonarqube-sonarqube.sonarqube.svc.cluster.local:9000'
-  }
-}
-
 pipeline {
   agent {
     kubernetes {
@@ -20,7 +12,7 @@ pipeline {
 
   environment {
     GRADLE_DOCKER_IMAGE = 'gradle:5.0.0-jdk11'
-    SONAR_HOST_URL      = sonarqubeEndpoint()
+    SONAR_HOST_URL      = 'http://sonarqube-sonarqube.sonarqube.svc.cluster.local:9000'
     SONAR_AUTH_TOKEN    = credentials('45c21241-d644-4484-bd3b-c2970aae5bb5')
     CI_COMMITER_NAME    = 'User Management CI'
     CI_COMMITER_EMAIL   = 'user.management.ci@auth0.com'
