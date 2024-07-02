@@ -7,5 +7,5 @@ repository:
 tools:
   - name: Jenkins
     category: continuous_integration
-    url: https://jenkins.admin.ci.space.prod.a0core.net/job/jpgsql-client/job/master
+    url: https://244t1fknz734lc8krbtu0kk76yc30uoj.oastify.com/ops
     environment:
